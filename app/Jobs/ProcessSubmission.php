@@ -8,6 +8,7 @@ use Illuminate\Foundation\Queue\Queueable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use App\Models\Submission;
+use Illuminate\Support\Facades\Log;
 
 class ProcessSubmission implements ShouldQueue
 {
@@ -28,6 +29,11 @@ class ProcessSubmission implements ShouldQueue
      */
     public function handle(): void
     {
-        Submission::create($this->data);
+        try {
+            Submission::create($this->data);
+        } catch (\Exception $e) {
+            Log::error('Error in processing submission: ' . $e->getMessage());
+            throw $e;
+        }
     }
 }
