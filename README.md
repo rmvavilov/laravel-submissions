@@ -114,6 +114,46 @@ This command will start processing jobs in the queue.
 To verify that the data has been saved, you can check the `submissions` table in your database. You can access the database through a database management tool connected to the Docker service or using the MySQL CLI within the container.
 
 
+## Test Environment Setup
 
+### Option 1: Using `.env.testing`
 
+If you prefer to use a separate environment file for testing, you can create one by copying the `.env.example file`:
 
+```bash
+cp .env.example .env.testing
+```
+
+In `.env.testing`, set up the database connection for testing, typically using SQLite:
+
+```bash
+DB_CONNECTION=sqlite
+DB_DATABASE=:memory:
+```
+
+### Option 2: Using `phpunit.xml`
+
+If you prefer to configure the test environment directly in the `phpunit.xml` file, ensure the following environment variables are set:
+
+```xml
+<php>
+    <env name="APP_ENV" value="testing"/>
+    <env name="CACHE_DRIVER" value="array"/>
+    <env name="QUEUE_CONNECTION" value="sync"/>
+    <env name="SESSION_DRIVER" value="array"/>
+    <env name="DB_CONNECTION" value="sqlite"/>
+    <env name="DB_DATABASE" value=":memory:"/>
+</php>
+```
+
+These settings configure the application to use an in-memory SQLite database during testing.
+
+### Running Tests
+
+To run your tests, use the following command with Sail:
+
+```bash
+./vendor/bin/sail test
+```
+
+This will execute your test suite using the configurations defined in either `.env.testing` or `phpunit.xml`.
