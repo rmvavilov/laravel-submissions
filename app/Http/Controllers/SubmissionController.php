@@ -2,16 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Submission;
 use App\Http\Requests\SubmitFormRequest;
+use App\Jobs\ProcessSubmission;
 
 class SubmissionController extends Controller
 {
     public function submit(SubmitFormRequest $request)
     {
-        Submission::create($request->all());
+        ProcessSubmission::dispatch($request->all());
 
         return redirect('/')
-            ->with('success', 'Message sent successfully!');
+            ->with('success', 'Your message is being processed and will be saved.');
     }
 }
