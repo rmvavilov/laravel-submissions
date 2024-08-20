@@ -6,7 +6,11 @@
 Clone the repository to your local machine using the following command:
 
 ```bash
-git clone https://github.com/your-repo/project.git
+# Using SSH
+git clone git@github.com:rmvavilov/laravel-submissions.git
+
+# Using HTTPS
+git clone https://github.com/rmvavilov/laravel-submissions.git
 ```
 
 ### 2. Navigate to the Project Directory
